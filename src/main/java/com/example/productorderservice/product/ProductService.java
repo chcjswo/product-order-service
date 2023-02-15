@@ -20,13 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/products")
 public class ProductService {
-	protected final ProductPort productPort;
+	private final ProductPort productPort;
 
 	public ProductService(ProductPort productPort) {
 		this.productPort = productPort;
 	}
 
 	@PostMapping
+	@Transactional
 	public ResponseEntity<Void> addProduct(@RequestBody AddProductRequest request) {
 		final Product product = new Product(request.name(), request.price(), request.discountPolicy());
 		productPort.save(product);
